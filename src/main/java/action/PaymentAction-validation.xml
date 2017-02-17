@@ -1,0 +1,128 @@
+<!DOCTYPE validators PUBLIC "-//OpenSymphony Group//XWork Validator 1.0.2//EN"
+       "http://www.opensymphony.com/xwork/xwork-validator-1.0.2.dtd">
+<validators>
+	<!-- Address Line -->
+	<field name="addressInfo.addLine">
+		<field-validator type="requiredstring" short-circuit="true">
+			<message key="1.required.field.error">
+				Missing default error message
+			</message>
+		</field-validator>
+
+	</field>
+
+	<!-- Address City -->
+	<field name="addressInfo.city">
+		<field-validator type="requiredstring">
+			<message key="1.required.field.error">
+				Missing default error message
+			</message>
+		</field-validator>
+
+	</field>
+
+
+	<field name="addressInfo.state">
+		<field-validator type="requiredstring" short-circuit="true">
+			<message key="1.required.field.error">
+				Missing default error message
+			</message>
+		</field-validator>
+		<field-validator type="regex">
+			<param name="expression">^[A-Za-z]+$</param>
+			<message>Only alpha values are allowed</message>
+		</field-validator>
+	</field>
+
+	<!-- Address zip code -->
+	<field name="addressInfo.zipCode">
+		<field-validator type="requiredstring" short-circuit="true">
+			<message key="1.required.field.error">
+				Missing default error message
+			</message>
+		</field-validator>
+		<field-validator type="regex">
+			<param name="expression">^[0-9]+$</param>
+			<message>Only numeric values are allowed</message>
+		</field-validator>
+		<field-validator type="stringlength">
+			<param name="minLength">6</param>
+			<param name="maxLength">6</param>
+			<message>ZipCode should be 6 characters long</message>
+		</field-validator>
+	</field>
+	<!-- Card Type -->
+	<field name="paymentInfo.cardType">
+		<field-validator type="requiredstring" short-circuit="true">
+			<message key="1.required.field.error">
+				Missing default error message
+			</message>
+		</field-validator>
+	</field>
+	<!-- Card Holder Name -->
+	<field name="paymentInfo.cardHolderName">
+		<field-validator type="requiredstring" short-circuit="true">
+			<message key="1.required.field.error">
+				Missing default error message
+			</message>
+		</field-validator>
+		<field-validator type="regex">
+			<param name="expression">^[A-Za-z ]+$</param>
+			<message>Only alpha values are allowed</message>
+		</field-validator>
+	</field>
+	<!-- Bank Name -->
+	<field name="paymentInfo.bankName">
+		<field-validator type="requiredstring" short-circuit="true">
+			<message key="1.required.field.error">
+				Missing default error message
+			</message>
+		</field-validator>
+	</field>
+	<!-- Card Name -->
+	<field name="paymentInfo.cardNumber">
+		<field-validator type="requiredstring" short-circuit="true">
+			<message key="1.required.field.error">
+				Missing default error message
+			</message>
+		</field-validator>
+		<field-validator type="regex">
+			<param name="expression">^[0-9]+$</param>
+			<message>Only numeric values are allowed</message>
+		</field-validator>
+		<field-validator type="stringlength">
+                     <param name="minLength">16</param>
+                     <message>Card Number should be atleast 16 numbers long</message>
+        </field-validator>
+		
+	</field>
+	<!-- Verification Number -->
+	<field name="paymentInfo.verificationNumber">
+		<field-validator type="requiredstring" short-circuit="true">
+			<message key="1.required.field.error">
+				Missing default error message
+			</message>
+		</field-validator>
+		<field-validator type="regex">
+			<param name="expression">^[0-9]+$</param>
+			<message>Only numeric values are allowed</message>
+		</field-validator>
+	</field>
+	<!-- Exp. Month -->
+	<field name="paymentInfo.expiredMonth">
+		<field-validator type="required" short-circuit="true">
+			<message key="1.required.field.error">
+				Missing default error message
+			</message>
+		</field-validator>
+	</field>
+	<!-- Exp. Year -->
+	<field name="paymentInfo.expiredYear">
+		<field-validator type="required" short-circuit="true">
+			<message key="1.required.field.error">
+				Missing default error message
+			</message>
+		</field-validator>
+	</field>
+
+</validators>

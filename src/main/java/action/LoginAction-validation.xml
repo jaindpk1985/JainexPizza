@@ -1,0 +1,14 @@
+<!DOCTYPE validators PUBLIC "-//OpenSymphony Group//XWork Validator 1.0.2//EN"
+       "http://www.opensymphony.com/xwork/xwork-validator-1.0.2.dtd">
+<validators> 
+  <field name="loginData.userName">
+    <field-validator type="requiredstring">
+      <message key="1.required.field.error">Missing default error message</message>
+    </field-validator>
+   </field>
+  <field name="loginData.pwd_text">
+    <field-validator type="requiredstring">
+      <message key="1.required.field.error">Missing default error message</message>
+    </field-validator>
+   </field>
+</validators>

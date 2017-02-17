@@ -1,0 +1,36 @@
+<!DOCTYPE validators PUBLIC "-//OpenSymphony Group//XWork Validator 1.0.2//EN"
+       "http://www.opensymphony.com/xwork/xwork-validator-1.0.2.dtd">
+
+<validators>
+<!-- Pizza Name -->
+	<field name="pizzaData.pizzaName">
+		<field-validator type="requiredstring" short-circuit="true">
+			<message key="1.required.field.error">
+				Missing default error message
+			</message>
+		</field-validator>
+	</field>
+	
+
+	<field name="pizzaData.isVeg">
+		<field-validator type="required" short-circuit="true">
+			<message key="1.required.field.error">
+				Missing default error message
+			</message>
+		</field-validator>
+	</field>
+	
+
+	<field name="pizzaBasePrice">
+		<field-validator type="required" short-circuit="true">
+			<message key="1.required.field.error">
+				Missing default error message
+			</message>
+		</field-validator>
+		<field-validator type="regex">
+			<param name="expression">^[1-9]\d*$</param>
+			<message>Only numeric values are allowed</message>
+		</field-validator>
+	</field>
+	
+</validators>
