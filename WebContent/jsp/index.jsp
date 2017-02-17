@@ -1,6 +1,0 @@
-
-
-<% 
-  response.sendRedirect("welcome.action");
-%>
-
