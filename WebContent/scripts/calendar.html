@@ -1,0 +1,189 @@
+<html>
+<head>
+<title>Please Select a Date</title>
+<style>
+	td {font-family: Tahoma, Verdana, sans-serif; font-size: 12px;}
+</style>
+<script language="JavaScript">
+
+  // months as they appear in the calendar's title
+  var ARR_MONTHS = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+
+  // week day titles as they appear on the calendar
+  var ARR_WEEKDAYS = ["Su", "Mo", "Tu", "We", "Th", "Fr", "Sa"];
+
+  // day week starts from (normally 0-Su or 1-Mo)
+  var NUM_WEEKSTART = 0;
+
+  // path to the directory where calendar images are stored. trailing slash req.
+  var STR_ICONPATH = '../images/exemplar/';
+
+  // get "current date" from url or else use today.
+  var re_url = new RegExp('datetime=(\\-?\\d+)');
+  var dt_current = (re_url.exec(String(window.location))? new Date(new Number(RegExp.$1)) : new Date());	
+  var mainWindow = (window.opener);
+
+  if (mainWindow && mainWindow.yearScroll) 
+  {
+	  // get same date in the previous year
+    var dt_prev_year = new Date(dt_current);
+    dt_prev_year.setFullYear(dt_prev_year.getFullYear() - 1);
+    if (dt_prev_year.getDate() != dt_current.getDate())
+    {	  
+      dt_prev_year.setDate(0);
+    }
+
+    // get same date in the next year
+    var dt_next_year = new Date(dt_current);
+    dt_next_year.setFullYear(dt_next_year.getFullYear() + 1);
+    if (dt_next_year.getDate() != dt_current.getDate())
+    {
+      dt_next_year.setDate(0);
+    }
+  }
+
+  // get same date in the previous month
+  var dt_prev_month = new Date(dt_current);
+  dt_prev_month.setMonth(dt_prev_month.getMonth() - 1);
+  if (dt_prev_month.getDate() != dt_current.getDate())
+  {
+    dt_prev_month.setDate(0);
+  }
+
+  // get same date in the next month
+  var dt_next_month = new Date(dt_current);
+  dt_next_month.setMonth(dt_next_month.getMonth() + 1);
+  if (dt_next_month.getDate() != dt_current.getDate())
+  {
+    dt_next_month.setDate(0);
+  }
+
+  // Get first day to display in the grid for current month
+  var dt_firstday = new Date(dt_current);
+  dt_firstday.setDate(1);
+  dt_firstday.setDate(1 - (7 + dt_firstday.getDay() - NUM_WEEKSTART) % 7);
+
+
+  // Move to new month or year
+  function newMonth(dateMillis) 
+  {	
+      window.location = 'calendar.html?datetime=' + dateMillis;
+  }
+  
+  // Close and send selected date back to main window.
+  function closeAndReturn(dateMillis) {
+      window.close();
+      mainWindow.calendarSave(dateMillis);
+  }
+  
+  function isSelectableDate(myDate) {
+      if (mainWindow.firstSelectableDate) {
+          if (myDate.getTime() < mainWindow.firstSelectableDate.getTime()) return false;
+      }
+      if (mainWindow.lastSelectableDate) {
+          if (myDate.getTime() > mainWindow.lastSelectableDate.getTime()) return false;
+      }
+      return true;
+  }
+  
+  function showPrevYearLink() {
+      if (!mainWindow.yearScroll) return false;
+      if (!mainWindow.firstSelectableDate) return true;
+      var yearDiff = dt_current.getFullYear() - mainWindow.firstSelectableDate.getFullYear();
+      var monthDiff = dt_current.getMonth() - mainWindow.firstSelectableDate.getMonth();
+      return ((12 * yearDiff + monthDiff) >= 12 );
+  }
+
+  function showPrevMonthLink() {
+      if (!mainWindow.firstSelectableDate) return true;
+      var yearDiff = dt_current.getFullYear() - mainWindow.firstSelectableDate.getFullYear();
+      var monthDiff = dt_current.getMonth() - mainWindow.firstSelectableDate.getMonth();
+      return ((12 * yearDiff + monthDiff) >= 1 );
+  }
+
+  function showNextMonthLink() {
+      if (!mainWindow.lastSelectableDate) return true;
+      var yearDiff = mainWindow.lastSelectableDate.getFullYear() - dt_current.getFullYear();
+      var monthDiff = mainWindow.lastSelectableDate.getMonth() - dt_current.getMonth();
+      return ((12 * yearDiff + monthDiff) >= 1 );
+  }
+
+  function showNextYearLink() {
+      if (!mainWindow.yearScroll) return false;
+      if (!mainWindow.lastSelectableDate) return true;
+      var yearDiff = mainWindow.lastSelectableDate.getFullYear() - dt_current.getFullYear();
+      var monthDiff = mainWindow.lastSelectableDate.getMonth() - dt_current.getMonth();
+      return ((12 * yearDiff + monthDiff) >= 12 );
+  }
+
+</script>
+</head>
+<body bgcolor="#FFFFFF" marginheight="5" marginwidth="5" topmargin="5" leftmargin="5" rightmargin="5">
+  <table class="clsOTable" cellspacing="0" border="0" width="100%">
+    <tr>
+      <td bgcolor="#4682B4">
+        <table cellspacing="1" cellpadding="3" border="0" width="100%">
+          <tr>
+            <td colspan="7">
+              <table cellspacing="0" cellpadding="0" border="0" width="100%">
+                <tr>
+                  <script language="JavaScript">
+                    document.write(
+                    '<td style="width:30%">' + (showPrevYearLink() ? '<a href="javascript:newMonth('+dt_prev_year.valueOf()+')"><img src="'+STR_ICONPATH+'prev_year.gif" width="16" height="16" border="0" alt="previous year"></a>&nbsp;' : '') + (showPrevMonthLink() ? '<a href="javascript:newMonth('+dt_prev_month.valueOf()+')"><img src="'+STR_ICONPATH+'prev_month.gif" width="16" height="16" border="0" alt="previous month"></a>' : '') + '</td>'+
+                    '<td style="width:40%;text-align:center"><font color="#ffffff">'+ARR_MONTHS[dt_current.getMonth()]+' '+dt_current.getFullYear() + '</font></td>'+
+                    '<td style="width:30%" align="right">' + (showNextMonthLink() ?  '<a href="javascript:newMonth('+dt_next_month.valueOf()+')"><img src="'+STR_ICONPATH+'next_month.gif" width="16" height="16" border="0" alt="next month"></a>' : '') + (showNextYearLink() ? '&nbsp;<a href="javascript:newMonth('+dt_next_year.valueOf()+')"><img src="'+STR_ICONPATH+'next_year.gif" width="16" height="16" border="0" alt="next year"></a>' : '') + '</td>'
+                    );
+                  </script>
+                </tr>
+              </table>
+            </td>
+          </tr>
+          <tr>
+            <script language="JavaScript">
+              // print weekdays titles
+              for (var n=0; n<7; n++)
+              	document.write('<td bgcolor="#87cefa" align="center"><font color="#ffffff">'+ARR_WEEKDAYS[(NUM_WEEKSTART+n)%7]+'</font></td>');
+              document.write('</tr>');
+
+              // print calendar table
+              var dt_current_day = new Date(dt_firstday);
+              while (dt_current_day.getMonth() == dt_current.getMonth() ||
+              	     dt_current_day.getMonth() == dt_firstday.getMonth()) {
+              	document.write('<tr>');
+              	for (var n_current_wday = 0; n_current_wday < 7; n_current_wday++) {
+              		if (dt_current_day.getDate() == dt_current.getDate() &&
+              			        dt_current_day.getMonth() == dt_current.getMonth()) {
+              			document.write('<td bgcolor="#ffb6c1" align="center" width="14%">'); // highlight current day
+                  }
+              		else if (dt_current_day.getDay() == 0 || dt_current_day.getDay() == 6) {
+              			document.write('<td bgcolor="#dbeaf5" align="center" width="14%">'); // weekend days
+                  }
+              		else {
+              			document.write('<td bgcolor="#ffffff" align="center" width="14%">'); // weekdays
+                  }
+                  var selectable = isSelectableDate(dt_current_day);
+                  if (selectable) {
+              		  document.write('<a href="javascript:closeAndReturn('+dt_current_day.valueOf()+');">');
+                  }
+              		if (dt_current_day.getMonth() == this.dt_current.getMonth()) {
+              			document.write('<font color="#000000">');  // current month
+                  }
+              		else {
+              			document.write('<font color="#606060">');  // other months
+                  }
+                  if (selectable) {
+              		  document.write(dt_current_day.getDate()+'</font></a></td>');
+                  }
+                  else {
+                    document.write(dt_current_day.getDate()+'</font></td>');
+                  }
+              		dt_current_day.setDate(dt_current_day.getDate()+1);
+              	}
+              	document.write('</tr>');
+              }
+            </script>
+        </table>
+      </tr>
+  </table>
+</body>
+</html>
